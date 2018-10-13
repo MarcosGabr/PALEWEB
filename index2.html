@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XML</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>PALAWEB BANCO DE DADOS</h1>
+
+<div id="conteudo"></div>
+<br>
+<div id="conteudo2"></div>
+<br>
+<div id="conteudo3"></div>
+<br>
+<div id="conteudo4"></div>
+
+<script>
+    var table="<table border=''><tr><th>Nome</th><th>CPF</th><th>Data de Nascimento</th><th>Sexo</th><th>ID Aluno</th><th>Login</th><th>Senha</th></tr>";
+    var table2="<table border=''><tr><th>NomeDisciplina</th><th>ID_Disciplina</th></tr>" ;
+    var table3="<table border=''><tr><th>ID_Materia</th><th>ID_Disciplina</th><th>Materia</th><th>Numero Certificado</th><th>Link</th><th>Descrição</th></tr>" ;
+    var table4="<table border=''><tr><th>Numero do Certificado</th><th>Nome do Certificado</th><th>ID_Materia</th><th>Quantidade de Horas</th></tr>" ;
+    $(function() {
+
+        $.get("PALEWEB JSON.json", {  },
+            function(data){
+            for(i=0;i<2;i++){
+                var str = "<tr>";
+                nome = data.PALEWEB.Alunos.Aluno[i].Nome;
+                cpf = data.PALEWEB.Alunos.Aluno[i].CPFaluno;
+                dtnasc = data.PALEWEB.Alunos.Aluno[i].Data_Nasc;
+                sexo = data.PALEWEB.Alunos.Aluno[i].Sexo;
+                id = data.PALEWEB.Alunos.Aluno[i].ID_Aluno;
+                login = data.PALEWEB.Alunos.Aluno[i].Login;
+                senha = data.PALEWEB.Alunos.Aluno[i].Senha;
+                str += "<td>" + nome + "</td><td>" + cpf + "</td><td>" + dtnasc + "</td><td>" + sexo + "</td><td>" + id + "</td><td>" + login + "</td><td>" + senha + "</td>";
+                str += "</tr>";
+                table += str;
+                document.getElementById("conteudo").innerHTML = table;
+            }
+                for(i=0; i<4; i++){
+                    var str2 = "<tr>";
+                    nomedisciplina =  data.PALEWEB.Disciplinas.Disciplina[i].Nome_disciplina;
+                    iddis = data.PALEWEB.Disciplinas.Disciplina[i].ID_Disciplina;
+                    console.log(iddis);
+                    str2 += "<td>"+nomedisciplina+"</td><td>"+iddis+"</td>";
+                    str2 += "</tr>";
+                    table2 += str2;
+                }
+                document.getElementById("conteudo2").innerHTML = table2;
+
+                for(i=0; i<2; i++){
+                    var str3 = "<tr>";
+                    idmateria = data.PALEWEB.Materias.Materia[i].ID_Materia;
+                    iddisciplina = data.PALEWEB.Materias.Materia[i].ID_Disciplina;
+                    nomemateria = data.PALEWEB.Materias.Materia[i].Nome_Materia;
+                    ncert = data.PALEWEB.Materias.Materia[i].Numero_Certificado;
+                    link = data.PALEWEB.Materias.Materia[i].Link;
+                    descricao = data.PALEWEB.Materias.Materia[i].Descrição;
+                    str3 +="<td>" + idmateria + "</td><td>" + iddisciplina + "</td><td>" + nomemateria + "</td><td>" + ncert + "</td><td>" + link + "</td><td>" + descricao + "</td>";
+                    str3 += "</tr>";
+                    table3 += str3;
+                }
+                document.getElementById("conteudo3").innerHTML = table3;
+
+                for(i=0; i<2; i++){
+                    var str4 = "<tr>";
+                    numerocert = data.PALEWEB.Certificados.Certificado[i].Numero_Certificado;
+                    nomecert = data.PALEWEB.Certificados.Certificado[i].Nome_certificado;
+                    idmateria = data.PALEWEB.Certificados.Certificado[i].ID_Materia;
+                    horas = data.PALEWEB.Certificados.Certificado[i].QTD_Horas;
+                    str4 +="<td>" + numerocert + "</td><td>" + nomecert + "</td><td>" + idmateria + "</td><td>" + horas + "</td>";
+                    str4 += "</tr>";
+                    table4 += str4;
+                }
+                document.getElementById("conteudo4").innerHTML = table4;
+
+            }, "json");
+
+    });
+</script>
+</body>
+</html>
